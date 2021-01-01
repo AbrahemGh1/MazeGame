@@ -11,6 +11,11 @@ public class Player implements Serializable {
     private int X_Position = 0;
     private int Y_Position = 0;
     private Direction direction = Direction.east;
+
+    public int getDirectionInt() {
+        return directionInt;
+    }
+
     private int directionInt = 1;
     private Gold gold=new Gold(500);
     private List<Item> playerItems = new ArrayList<Item>();
