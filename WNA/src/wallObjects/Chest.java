@@ -8,7 +8,7 @@ import wallObjects.WallObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chest extends WallObject implements Checkable {
+public class Chest extends WallObject implements Openable {
     Key keyNeeded;
     int id = 0;
     boolean isOpen = false;
@@ -22,8 +22,18 @@ public class Chest extends WallObject implements Checkable {
         this.keyNeeded = keyNeededId;
     }
 
+    @Override
+    public void open() {
+
+    }
+
     public boolean isOpen() {
         return isOpen;
+    }
+
+    @Override
+    public void setOpenKey(Key item) {
+
     }
 
     public void setOpen(boolean open) {

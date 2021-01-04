@@ -15,73 +15,8 @@ public class test implements Serializable {
     static List<String> keysNames = new ArrayList<String>();
 
     public static void main(String[] args) {
+        System.out.println("asdas");
 
-//        Room[][] map1=new Room[1][1];
-//        map1[0][0]=new Room();
-//        Wall w= new Wall();
-//        w.setWallObject(new wallObjects.Door());
-//        map1[0][0].setWall(w,0);
-//        System.out.println(map1[0][0].getWalls()[0].getWallObject().getObjectName());
-//        Room r = new Room();
-//        Wall w = new Wall();
-//        w.setWallObject(new wallObjects.Door());
-//        r.setWall(w,0);
-//        System.out.println(r.getWalls()[0].getWallObject().getObjectName());
-////////
-//        Seller seller= new Seller();
-//        seller.setSellerGold(new Gold(600));
-//
-//        Key keyItem= new Key();
-//        keyItem.setId(1);
-//        keyItem.setName("FirstDoorKey");
-//        keyItem.setPrice(new Gold(200));
-//
-//
-//        Key key2Item= new Key();
-//        key2Item.setId(2);
-//        key2Item.setName("SecondDoorKey");
-//        key2Item.setPrice(new Gold(350));
-//        seller.listSellerItems();
-//
-//
-//
-//        FlashLight flashLightItem= new FlashLight();
-//        flashLightItem.setPrice(new Gold(750));
-//
-//
-//
-//        seller.addToSellerList(keyItem);
-//        seller.addToSellerList(flashLightItem);
-//        seller.addToSellerList(key2Item);
-//
-//        System.out.println();
-//        seller.listSellerItems();
-//
-//        Key mk= new Key();
-//        mk.setId(0);
-//        mk.setName("key1");
-//        mk.setPrice(new Gold(100));
-//
-//        Key mk2= new Key();
-//        mk2.setId(0);
-//        mk2.setName("key2");
-//        mk2.setPrice(new Gold(200));
-//
-//        Key mk3= new Key();
-//        mk3.setId(0);
-//        mk3.setName("key3");
-//        mk3.setPrice(new Gold(300));
-//
-//        seller.addToPriceList(mk.toString());
-//        seller.addToPriceList(mk2.toString());
-//        seller.addToPriceList(mk3.toString());
-
-//        Player player= new Player();
-//        player.gold= new Gold(800);
-//        player.addItem(mk);
-//        player.addItem(mk2);
-//        player.addItem(mk3);
-//        seller.startTrade(player);
 
         Room[][] map1 = new Room[4][4];
         mapInit(map1);
@@ -89,52 +24,12 @@ public class test implements Serializable {
         Player player = new Player();
         player.addItem(new FlashLight());
         player.addItem(new Gold(1000));
-        //order(map1,player);
         System.out.println("command 1");
         player.turnRight();
         System.out.println(player.look(map1[player.getX_Position()][player.getY_Position()]));
         player.check(map1[player.getX_Position()][player.getY_Position()]);
         player.forward();
         player.playerStatus();
-
-
-//        Room room=new Room();
-//        Player p= new Player();
-//
-////        Wall w2=new Wall();
-////        Mirror m= new Mirror();
-////        m.addItems(new FlashLight());
-////        w2.setWallObject(m);
-////        room.setWall(w2,1);
-////        System.out.println( p.look(room));
-////        p.check(room);
-////
-////        p.turnRight();
-////        Wall w3=new Wall();
-////        Painting painting = new Painting();
-////        p.addItem(new Key());
-////        w3.setWallObject(painting);
-////        room.setWall(w3,2);
-////        System.out.println( p.look(room));
-////        p.turnRight();
-//
-//
-//        Wall w4=new Wall();
-//        Chest chest= new Chest();
-//        chest.addItems(new Gold(200));
-//        w4.setWallObject(chest);
-//        room.setWall(w4,3);
-//        System.out.println( p.look(room));
-//        p.turnRight();
-//
-//        Wall w1=new Wall();
-//        w1.setWallObject(new Door());
-//        room.setWall(w1,0);
-//
-//
-//
-//        System.out.println( p.look(room));
-
         playerInputListnr(player,map1);
     }
 
@@ -162,8 +57,11 @@ public class test implements Serializable {
         key.setName("FirstRoom");
         mirror.addItems(key);
         map1[0][0].getWall(1).setWallObject(mirror);
+        Door door1=new Door();
+        door1.setOpen(false);
+        door1.setNameNeededKey("FirstRoom");
 
-        map1[0][0].getWall(2).setWallObject(new Door());
+        map1[0][0].getWall(2).setWallObject(door1);
         map1[1][0].getWall(0).setWallObject(new Door());
         map1[1][0].getWall(1).setWallObject(new Door());
         map1[1][0].getWall(2).setWallObject(new Mirror());
@@ -199,11 +97,6 @@ public class test implements Serializable {
 
     }
 
-    public static void order(Room[][] map1, Player player) {
-        Scanner scanner = new Scanner(System.in);
-        String command = scanner.next();
-
-    }
 
 
     public static void playerInputListnr(Player p, Room[][] map1) {
@@ -248,6 +141,9 @@ public class test implements Serializable {
                     p.useFlashLight(map1[p.getX_Position()][p.getY_Position()]);
                     break;
                 case "Use name Key":
+                    map1[p.getX_Position()][p.getY_Position()].getWall(p.getDirectionInt());
+                    p.useKey("FirstRoom", map1[p.getX_Position()][p.getY_Position()].getWall(p.getDirectionInt()));
+
                     break;
                 case "SwitchLights":
                     map1[p.getX_Position()][p.getY_Position()].SwitchLight();

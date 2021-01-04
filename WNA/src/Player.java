@@ -1,7 +1,10 @@
 import Items.FlashLight;
 import Items.Gold;
 import Items.Item;
+import Items.Key;
 import wallObjects.Checkable;
+import wallObjects.Door;
+import wallObjects.WallObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,11 +20,11 @@ public class Player implements Serializable {
     }
 
     private int directionInt = 1;
-    private Gold gold=new Gold(500);
+    private Gold gold = new Gold(500);
     private List<Item> playerItems = new ArrayList<Item>();
 
-    public Player(){
-        gold=new Gold();
+    public Player() {
+        gold = new Gold();
     }
 
     public Gold getGold() {
@@ -62,10 +65,10 @@ public class Player implements Serializable {
     }
 
     public void addItem(Item item) {
-        if(item instanceof Gold){
+        if (item instanceof Gold) {
             increasePlayerGold(((Gold) item).getAmount());
-        }else
-        this.playerItems.add(item);
+        } else
+            this.playerItems.add(item);
     }
 
     public boolean DosePlayerHasItem(String item) {
@@ -83,6 +86,20 @@ public class Player implements Serializable {
 
     public void setPlayerItems(List<Item> playerItems) {
         this.playerItems = playerItems;
+    }
+
+    public void useKey(String keyName, Wall wall) {
+        for (Item item :
+                playerItems) {
+            if (item instanceof Key) {
+                if (item.getName() == keyName) {
+                    WallObject wallObject = wall.getWallObject();
+                    if (wallObject instanceof Door) {
+                        ((Door) wallObject).setOpenKey((Key) item);
+                    }
+                }
+            }
+        }
     }
 
     public void turnLeft() {
@@ -116,7 +133,7 @@ public class Player implements Serializable {
     public void playerStatus() {
         System.out.println("You Are Facing: " + direction);
         System.out.println("You Have " + gold.getAmount() + " gold");
-        System.out.println("x " + X_Position + " y"+Y_Position);
+        System.out.println("x " + X_Position + " y" + Y_Position);
     }
 
     public String look(Room room) {
