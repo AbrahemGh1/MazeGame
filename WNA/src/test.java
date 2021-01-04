@@ -15,21 +15,12 @@ public class test implements Serializable {
     static List<String> keysNames = new ArrayList<String>();
 
     public static void main(String[] args) {
-        System.out.println("asdas");
-
-
         Room[][] map1 = new Room[4][4];
         mapInit(map1);
 
         Player player = new Player();
         player.addItem(new FlashLight());
         player.addItem(new Gold(1000));
-        System.out.println("command 1");
-        player.turnRight();
-        System.out.println(player.look(map1[player.getX_Position()][player.getY_Position()]));
-        player.check(map1[player.getX_Position()][player.getY_Position()]);
-        player.forward();
-        player.playerStatus();
         playerInputListnr(player,map1);
     }
 
@@ -55,6 +46,7 @@ public class test implements Serializable {
         Mirror mirror = new Mirror();
         Key key = new Key();
         key.setName("FirstRoom");
+        key.setPrice(new Gold(200));
         mirror.addItems(key);
         map1[0][0].getWall(1).setWallObject(mirror);
         Door door1=new Door();
@@ -117,30 +109,43 @@ public class test implements Serializable {
                     p.turnRight();
                     break;
                 case "forward":
-                    p.forward();
+                    Room r=map1[p.getX_Position()][p.getY_Position()];
+                    WallObject wallObject=r.getWall(p.getDirectionInt()).getWallObject();
+                    if(wallObject instanceof Door){
+                    p.forward((Door)wallObject);}else
+                    {
+                        System.out.println("No Door in front of you.");
+                    }
                     break;
                 case "backward":
-                    p.backward();
+                    Room r3=map1[p.getX_Position()][p.getY_Position()];
+                    WallObject wallObject3=r3.getWall(p.getDirectionInt()).getWallObject();
+                    if(wallObject3 instanceof Door){
+                        p.backward((Door)wallObject3);}else
+                    {
+                        System.out.println("No Door in front of you.");
+                    }
                     break;
                 case "playerstatus":
                     p.playerStatus();
                     break;
                 case "look":
-                    p.look(map1[p.getX_Position()][p.getY_Position()]);
+                    System.out.println( p.look(map1[p.getX_Position()][p.getY_Position()]));
+                    //p.look(map1[p.getX_Position()][p.getY_Position()]);
                     break;
-                case "Check":
+                case "check":
                     p.check(map1[p.getX_Position()][p.getY_Position()]);
                     break;
                 case "Open":
-                    Room r=map1[p.getX_Position()][p.getY_Position()];
-                    WallObject wallObject=r.getWall(p.getDirectionInt()).getWallObject();
-                    if(wallObject instanceof Door)
-                        ((Door) wallObject).open();
+                    Room r4=map1[p.getX_Position()][p.getY_Position()];
+                    WallObject wallObject4=r4.getWall(p.getDirectionInt()).getWallObject();
+                    if(wallObject4 instanceof Door)
+                        ((Door) wallObject4).open();
                     break;
                 case "Use flashlight":
                     p.useFlashLight(map1[p.getX_Position()][p.getY_Position()]);
                     break;
-                case "Use name Key":
+                case "Use FirstRoom Key":
                     map1[p.getX_Position()][p.getY_Position()].getWall(p.getDirectionInt());
                     p.useKey("FirstRoom", map1[p.getX_Position()][p.getY_Position()].getWall(p.getDirectionInt()));
 
@@ -153,6 +158,7 @@ public class test implements Serializable {
                     System.exit(0);
                     break;
                 case "Restart":
+                    main(new String[]{});
                     break;
                 case "trade":
                     Room r2=map1[p.getX_Position()][p.getY_Position()];

@@ -55,9 +55,20 @@ public class Chest extends WallObject implements Openable {
             System.out.println("“chest closed <"+keyNeeded.getName()+"> key is needed to unlock.");
             return new ArrayList<>();
         }else
-            printItems();
-        System.out.println("was acquired.");
-        return chestItems;
+        if (chestItems.isEmpty()) {
+            System.out.println("No item in mirror.");
+            return new ArrayList<>();
+        }
+        ArrayList<Item> clonedItems = new ArrayList(chestItems);
+        chestItems = new ArrayList<>();
+        printAcquiredItems();
+        return clonedItems;
+    }
+
+    private void printAcquiredItems() {
+        for (Item item : chestItems) {
+            System.out.println(item.toString() + " was acquired”");
+        }
     }
 
     @Override

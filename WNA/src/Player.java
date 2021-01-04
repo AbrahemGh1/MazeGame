@@ -107,6 +107,7 @@ public class Player implements Serializable {
         else if (direction == Direction.west) direction = Direction.south;
         else if (direction == Direction.south) direction = Direction.east;
         else if (direction == Direction.east) direction = Direction.north;
+        directionToInt();
     }
 
     public void turnRight() {
@@ -114,16 +115,20 @@ public class Player implements Serializable {
         else if (direction == Direction.east) direction = Direction.south;
         else if (direction == Direction.south) direction = Direction.west;
         else if (direction == Direction.west) direction = Direction.north;
+        directionToInt();
     }
 
-    public void forward() {
-        if (direction == Direction.north) X_Position--;
-        else if (direction == Direction.west) Y_Position--;
-        else if (direction == Direction.south) X_Position++;
-        else if (direction == Direction.east) Y_Position++;
+    public void forward(Door door) {
+        if(door.isOpen()) {
+            if (direction == Direction.north) X_Position--;
+            else if (direction == Direction.west) Y_Position--;
+            else if (direction == Direction.south) X_Position++;
+            else if (direction == Direction.east) Y_Position++;
+        }
+        else System.out.println("can't go forward because door is closed");
     }
 
-    public void backward() {
+    public void backward(Door d) {
         if (direction == Direction.north) X_Position++;
         else if (direction == Direction.west) Y_Position++;
         else if (direction == Direction.south) X_Position--;

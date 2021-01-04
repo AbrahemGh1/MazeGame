@@ -19,10 +19,22 @@ public class Painting extends WallObject implements Checkable {
         paintingItems.add(key1);
     }
 
+    private void printAcquiredItems() {
+        for (Item item : paintingItems) {
+            System.out.println(item.toString() + " was acquired”");
+        }
+    }
+
     @Override
     public List<Item> check() {
-        printItems();
-        return getItems();
+        if (paintingItems.isEmpty()) {
+            System.out.println("No item in mirror.");
+            return new ArrayList<>();
+        }
+        ArrayList<Item> clonedItems = new ArrayList(paintingItems);
+        paintingItems = new ArrayList<>();
+        printAcquiredItems();
+        return clonedItems;
     }
 
     @Override

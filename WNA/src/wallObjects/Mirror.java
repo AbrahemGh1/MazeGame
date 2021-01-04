@@ -20,17 +20,27 @@ public class Mirror extends WallObject implements Checkable {
 
     @Override
     public List<Item> check() {
-        for (Item item: mirrorItems
-             ) {
-            System.out.println(item.toString()+" was acquired”");
+        if (mirrorItems.isEmpty()) {
+            System.out.println("No item in mirror.");
+            return new ArrayList<>();
         }
-        return getMirrorItems();
+        ArrayList<Item> clonedItems = new ArrayList(mirrorItems);
+        mirrorItems = new ArrayList<>();
+        printAcquiredItems();
+        return clonedItems;
+    }
+
+    private void printAcquiredItems() {
+        for (Item item : mirrorItems) {
+            System.out.println(item.toString() + " was acquired”");
+        }
     }
 
     @Override
     public String getObjectName() {
         return String.valueOf("You See a silhouette of you.");
     }
+
     public void printItems() {
         for (Item item : mirrorItems) {
             System.out.println(item.toString() + " was acquired.");

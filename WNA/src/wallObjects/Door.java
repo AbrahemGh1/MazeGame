@@ -33,13 +33,14 @@ public class Door extends WallObject implements Openable {
         if (open.getName() == nameNeededKey) {
             keyNeeded = open;
             this.open = true;
+            System.out.println("Door now is open.");
         }
     }
 
     @Override
     public List<Item> check() {
         if (!isOpen()) {
-            System.out.println("Door closed <" + keyNeeded.getName() + "> key is needed to unlock.");
+            System.out.println("Door closed <" + nameNeededKey + "> key is needed to unlock.");
             return new ArrayList<>();
         } else {
             System.out.println("Door is Open.");
