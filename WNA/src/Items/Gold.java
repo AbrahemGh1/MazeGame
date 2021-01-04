@@ -1,7 +1,7 @@
 package Items;
 
 public class Gold extends Item implements Comparable<Gold> {
-    private final String name ="Gold";
+    private final String name = "Gold";
     private int Id;
     private int amount;
     public Gold() {

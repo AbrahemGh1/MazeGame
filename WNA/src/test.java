@@ -248,13 +248,12 @@ public class test implements Serializable {
                     p.useFlashLight(map1[p.getX_Position()][p.getY_Position()]);
                     break;
                 case "Use name Key":
-
-
                     break;
                 case "SwitchLights":
                     map1[p.getX_Position()][p.getY_Position()].SwitchLight();
                     break;
                 case "quit":
+                    exit=false;
                     System.exit(0);
                     break;
                 case "Restart":
@@ -266,11 +265,6 @@ public class test implements Serializable {
                         ((Seller) wallObject2).startTrade(p);
                     break;
             }
-
-
         }
-
     }
-
-
 }
