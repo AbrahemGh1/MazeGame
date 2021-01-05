@@ -2,8 +2,6 @@ package wallObjects;
 
 import Items.Item;
 import Items.Key;
-import wallObjects.Checkable;
-import wallObjects.WallObject;
 
 import java.util.ArrayList;
 import java.util.List;

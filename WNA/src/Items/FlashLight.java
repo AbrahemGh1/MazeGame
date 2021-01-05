@@ -1,11 +1,10 @@
 package Items;
 
-public class FlashLight extends Item{
-    private boolean status;
-    private Gold  price;
-    public static final String name="flashLight";
-
+public class FlashLight extends Item {
+    public static final String name = "flashLight";
     int Id;
+    private boolean status;
+    private Gold price;
 
     public boolean getStatus() {
         return status;
@@ -15,15 +14,17 @@ public class FlashLight extends Item{
         this.status = status;
     }
 
-    public void  turnOn(){
+    public void turnOn() {
         setStatus(true);
     }
-    public void turnOff(){
+
+    public void turnOff() {
         setStatus(false);
     }
+
     @Override
-    public String toString(){
-        return "FlashLight  "+price.toString();
+    public String toString() {
+        return "FlashLight  " + price.toString();
     }
 
     @Override
@@ -31,12 +32,12 @@ public class FlashLight extends Item{
         return price;
     }
 
+    public void setPrice(Gold gold) {
+        this.price = gold;
+    }
+
     @Override
     public String getName() {
         return name;
-    }
-
-    public void setPrice(Gold gold){
-        this.price=gold;
     }
 }

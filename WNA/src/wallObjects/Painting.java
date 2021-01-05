@@ -1,15 +1,13 @@
 package wallObjects;
 
 import Items.Item;
-import wallObjects.Checkable;
-import wallObjects.WallObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Painting extends WallObject implements Checkable {
     private List<Item> paintingItems = new ArrayList<>();
-    private int id = 0;
+    private final int id = 0;
 
     public List<Item> getItems() {
         return paintingItems;

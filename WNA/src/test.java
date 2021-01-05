@@ -1,6 +1,11 @@
 import Items.FlashLight;
 import Items.Gold;
 import Items.Key;
+import player.Player;
+import room.Room;
+import timer.PlayerTimer;
+import timer.RunnableTimer;
+import wall.Wall;
 import wallObjects.*;
 
 import java.io.Serializable;
@@ -8,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-enum Direction {north, east, south, west}
 
 public class test implements Serializable {
 
@@ -17,11 +21,16 @@ public class test implements Serializable {
     public static void main(String[] args) {
         Room[][] map1 = new Room[4][4];
         mapInit(map1);
-
-        Player player = new Player();
+        Player player = Player.getPlayerInstance();
         player.addItem(new FlashLight());
         player.addItem(new Gold(1000));
-        playerInputListnr(player,map1);
+
+        PlayerTimer time2 = new PlayerTimer(5);
+        Thread thread = new Thread(new RunnableTimer(time2));
+
+        time2.addObserver(player);
+        thread.start();
+        playerInputListnr(player, map1);
     }
 
     public static void mapInit(Room[][] map1) {
@@ -49,7 +58,7 @@ public class test implements Serializable {
         key.setPrice(new Gold(200));
         mirror.addItems(key);
         map1[0][0].getWall(1).setWallObject(mirror);
-        Door door1=new Door();
+        Door door1 = new Door();
         door1.setOpen(false);
         door1.setNameNeededKey("FirstRoom");
 
@@ -86,9 +95,7 @@ public class test implements Serializable {
         map1[2][2].setSwitchLightExists(true);
 
 
-
     }
-
 
 
     public static void playerInputListnr(Player p, Room[][] map1) {
@@ -109,20 +116,20 @@ public class test implements Serializable {
                     p.turnRight();
                     break;
                 case "forward":
-                    Room r=map1[p.getX_Position()][p.getY_Position()];
-                    WallObject wallObject=r.getWall(p.getDirectionInt()).getWallObject();
-                    if(wallObject instanceof Door){
-                    p.forward((Door)wallObject);}else
-                    {
+                    Room r = map1[p.getX_Position()][p.getY_Position()];
+                    WallObject wallObject = r.getWall(p.getDirectionInt()).getWallObject();
+                    if (wallObject instanceof Door) {
+                        p.forward((Door) wallObject);
+                    } else {
                         System.out.println("No Door in front of you.");
                     }
                     break;
                 case "backward":
-                    Room r3=map1[p.getX_Position()][p.getY_Position()];
-                    WallObject wallObject3=r3.getWall(p.getDirectionInt()).getWallObject();
-                    if(wallObject3 instanceof Door){
-                        p.backward((Door)wallObject3);}else
-                    {
+                    Room r3 = map1[p.getX_Position()][p.getY_Position()];
+                    WallObject wallObject3 = r3.getWall(p.getDirectionInt()).getWallObject();
+                    if (wallObject3 instanceof Door) {
+                        p.backward((Door) wallObject3);
+                    } else {
                         System.out.println("No Door in front of you.");
                     }
                     break;
@@ -130,16 +137,16 @@ public class test implements Serializable {
                     p.playerStatus();
                     break;
                 case "look":
-                    System.out.println( p.look(map1[p.getX_Position()][p.getY_Position()]));
+                    System.out.println(p.look(map1[p.getX_Position()][p.getY_Position()]));
                     //p.look(map1[p.getX_Position()][p.getY_Position()]);
                     break;
                 case "check":
                     p.check(map1[p.getX_Position()][p.getY_Position()]);
                     break;
                 case "Open":
-                    Room r4=map1[p.getX_Position()][p.getY_Position()];
-                    WallObject wallObject4=r4.getWall(p.getDirectionInt()).getWallObject();
-                    if(wallObject4 instanceof Door)
+                    Room r4 = map1[p.getX_Position()][p.getY_Position()];
+                    WallObject wallObject4 = r4.getWall(p.getDirectionInt()).getWallObject();
+                    if (wallObject4 instanceof Door)
                         ((Door) wallObject4).open();
                     break;
                 case "Use flashlight":
@@ -154,16 +161,16 @@ public class test implements Serializable {
                     map1[p.getX_Position()][p.getY_Position()].SwitchLight();
                     break;
                 case "quit":
-                    exit=false;
+                    exit = false;
                     System.exit(0);
                     break;
                 case "Restart":
                     main(new String[]{});
                     break;
                 case "trade":
-                    Room r2=map1[p.getX_Position()][p.getY_Position()];
-                    WallObject wallObject2=r2.getWall(p.getDirectionInt()).getWallObject();
-                    if(wallObject2 instanceof Seller)
+                    Room r2 = map1[p.getX_Position()][p.getY_Position()];
+                    WallObject wallObject2 = r2.getWall(p.getDirectionInt()).getWallObject();
+                    if (wallObject2 instanceof Seller)
                         ((Seller) wallObject2).startTrade(p);
                     break;
             }

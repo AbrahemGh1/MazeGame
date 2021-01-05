@@ -2,8 +2,6 @@ package wallObjects;
 
 import Items.Item;
 import Items.Key;
-import wallObjects.Checkable;
-import wallObjects.WallObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +29,13 @@ public class Chest extends WallObject implements Openable {
         return isOpen;
     }
 
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
+
     @Override
     public void setOpenKey(Key item) {
 
-    }
-
-    public void setOpen(boolean open) {
-        isOpen = open;
     }
 
     public void Open(Key k) {
@@ -51,11 +49,10 @@ public class Chest extends WallObject implements Openable {
 
     @Override
     public List<Item> check() {
-        if(!isOpen()){
-            System.out.println("“chest closed <"+keyNeeded.getName()+"> key is needed to unlock.");
+        if (!isOpen()) {
+            System.out.println("“chest closed <" + keyNeeded.getName() + "> key is needed to unlock.");
             return new ArrayList<>();
-        }else
-        if (chestItems.isEmpty()) {
+        } else if (chestItems.isEmpty()) {
             System.out.println("No item in mirror.");
             return new ArrayList<>();
         }
@@ -75,6 +72,7 @@ public class Chest extends WallObject implements Openable {
     public String getObjectName() {
         return "wallObjects.Chest";
     }
+
     public void printItems() {
         for (Item item : chestItems) {
             System.out.println(item.toString());

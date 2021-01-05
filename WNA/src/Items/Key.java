@@ -2,7 +2,7 @@ package Items;
 
 public class Key extends Item {
     private int id;
-    private String name="key";
+    private String name = "key";
     private Gold price;
 
     public int getId() {
@@ -17,7 +17,9 @@ public class Key extends Item {
         return name;
     }
 
-    public void setName(String name){this.name=name;}
+    public void setName(String name) {
+        this.name = name;
+    }
 
 
     public Gold getPrice() {
@@ -27,9 +29,10 @@ public class Key extends Item {
     public void setPrice(Gold price) {
         this.price = price;
     }
+
     @Override
-    public String toString(){
-        return name+" Key"+"   "+price.toString();
+    public String toString() {
+        return name + " Key" + "   " + price.toString();
     }
 
 

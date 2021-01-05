@@ -4,6 +4,7 @@ public class Gold extends Item implements Comparable<Gold> {
     private final String name = "Gold";
     private int Id;
     private int amount;
+
     public Gold() {
 
     }
@@ -47,9 +48,9 @@ public class Gold extends Item implements Comparable<Gold> {
 
     @Override
     public int compareTo(Gold o) {
-        if (this.getAmount() > ((Gold) o).getAmount())
+        if (this.getAmount() > o.getAmount())
             return 1;
-        else if (this.getAmount() == ((Gold) o).getAmount())
+        else if (this.getAmount() == o.getAmount())
             return 0;
         return -1;
     }

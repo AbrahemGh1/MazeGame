@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Mirror extends WallObject implements Checkable {
-    private boolean containsKey = false;
+    private final boolean containsKey = false;
     private List<Item> mirrorItems = new ArrayList<>();
-    private int id = 0;
+    private final int id = 0;
 
     public List<Item> getMirrorItems() {
         return mirrorItems;
@@ -38,7 +38,7 @@ public class Mirror extends WallObject implements Checkable {
 
     @Override
     public String getObjectName() {
-        return String.valueOf("You See a silhouette of you.");
+        return "You See a silhouette of you.";
     }
 
     public void printItems() {

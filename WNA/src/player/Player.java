@@ -1,7 +1,11 @@
+package player;
+
 import Items.FlashLight;
 import Items.Gold;
 import Items.Item;
 import Items.Key;
+import room.Room;
+import wall.Wall;
 import wallObjects.Checkable;
 import wallObjects.Door;
 import wallObjects.WallObject;
@@ -9,22 +13,28 @@ import wallObjects.WallObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Player implements Serializable {
+public class Player implements Serializable, Observer {
+    private static final Player playerInstance = new Player();
     private int X_Position = 0;
     private int Y_Position = 0;
     private Direction direction = Direction.east;
-
-    public int getDirectionInt() {
-        return directionInt;
-    }
-
+    private long time; // change this
     private int directionInt = 1;
     private Gold gold = new Gold(500);
     private List<Item> playerItems = new ArrayList<Item>();
-
-    public Player() {
+    private Player() {
         gold = new Gold();
+    }
+
+    public static synchronized Player getPlayerInstance() {
+        return playerInstance;
+    }
+
+    public int getDirectionInt() {
+        return directionInt;
     }
 
     public Gold getGold() {
@@ -74,7 +84,7 @@ public class Player implements Serializable {
     public boolean DosePlayerHasItem(String item) {
         for (Item t :
                 playerItems) {
-            if (t.toString() == item.toString())
+            if (t.toString() == item)
                 return true;
         }
         return false;
@@ -119,13 +129,12 @@ public class Player implements Serializable {
     }
 
     public void forward(Door door) {
-        if(door.isOpen()) {
+        if (door.isOpen()) {
             if (direction == Direction.north) X_Position--;
             else if (direction == Direction.west) Y_Position--;
             else if (direction == Direction.south) X_Position++;
             else if (direction == Direction.east) Y_Position++;
-        }
-        else System.out.println("can't go forward because door is closed");
+        } else System.out.println("can't go forward because door is closed");
     }
 
     public void backward(Door d) {
@@ -137,8 +146,10 @@ public class Player implements Serializable {
 
     public void playerStatus() {
         System.out.println("You Are Facing: " + direction);
-        System.out.println("You Have " + gold.getAmount() + " gold");
+        System.out.println("You Have " + gold.getAmount() + " gold.");
         System.out.println("x " + X_Position + " y" + Y_Position);
+        System.out.println("Time left: " + time / 60 + " minutes " + time % 60 + " seconds.");
+
     }
 
     public String look(Room room) {
@@ -154,53 +165,6 @@ public class Player implements Serializable {
         else if (direction == Direction.west) directionInt = 3;
     }
 
-    public String checkMirror(Room room) {
-        if (room.isDark()) return "dark";
-        else directionToInt();
-        {
-            if (room.getWalls()[directionInt].key) {
-                room.getWalls()[directionInt].key = false;
-                return room.getWalls()[directionInt].keyName_wall + " was acquired";
-            } else return "no key here";
-        }
-    }
-
-    public String checkPainting(Room room) {
-        if (room.isDark()) return "dark";
-        else directionToInt();
-        if (room.getWalls()[directionInt].type == 5) {
-            if (room.getWalls()[directionInt].key) {
-                room.getWalls()[directionInt].key = false;
-                return room.getWalls()[directionInt].keyName_wall + " was acquired";
-            } else return "no key here";
-        }
-        return "no painting here ";
-    }
-
-    public String checkChest(Room room) {
-        if (room.isDark()) return "dark";
-        else directionToInt();
-        if (room.getWalls()[directionInt].type == 1) {
-            if (room.getWalls()[directionInt].key) {
-                room.getWalls()[directionInt].key = false;
-                return room.getWalls()[directionInt].keyName_wall + " was acquired";
-            } else return "no key here";
-        }
-        return "no chest here ";
-    }
-
-    public String checkDoor(Room room) {
-        if (room.isDark()) return "dark";
-        else directionToInt();
-        if (room.getWalls()[directionInt].type == 5) {
-            if (room.getWalls()[directionInt].key) {
-                room.getWalls()[directionInt].key = false;
-                return room.getWalls()[directionInt].keyName_wall + " was acquired";
-            } else return "no key here";
-        }
-
-        return "no door here ";
-    }
 
     public void check(Room room) {
         if (room.getWalls()[directionInt].getWallObject() instanceof Checkable) {
@@ -211,7 +175,7 @@ public class Player implements Serializable {
 
     @Override
     public String toString() {
-        return "Player{" +
+        return "player.Player{" +
                 "X_Position=" + X_Position +
                 ", Y_Position=" + Y_Position +
                 ", direction=" + direction +
@@ -225,7 +189,7 @@ public class Player implements Serializable {
         if (r.isSwitchLightExists()) {
             r.setDark(false);
         } else
-            System.out.println("No switchLight in Room.");
+            System.out.println("No switchLight in room.Room.");
     }
 
     public void useFlashLight(Room r) {
@@ -235,7 +199,7 @@ public class Player implements Serializable {
                 FlashLight f = (FlashLight) playerItems.get(i);
                 f.setStatus(true);
                 r.setDark(true);
-                System.out.println("Flash Light On , Room is Lit.");
+                System.out.println("Flash Light On , room.Room is Lit.");
                 flag = true;
             }
         }
@@ -247,5 +211,15 @@ public class Player implements Serializable {
         for (Item i : playerItems) {
             System.out.println(i.toString());
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        time = (long) arg;
+        if (time == 0) {
+            System.out.println("you lost. time over.");
+            System.exit(0);
+        }
+
     }
 }
